@@ -11,6 +11,7 @@ namespace tarot_du_faune
         private static Joueur thibault = new Joueur("Thibault");
         private static Joueur jocelyn = new Joueur("Jocelyn");
         private static int nbPlis = 2;
+        private static Partie dududududuel = new Partie();
 
         static void Main(string[] args)
         {
@@ -20,24 +21,8 @@ namespace tarot_du_faune
 
         static void initGame()
         {
-            //Joueur thibault = new Joueur("Thibault");
-            //Joueur jocelyn = new Joueur("Jocelyn");
-            //thibault.Deck = deckBuilder();
-            //jocelyn.Deck = deckBuilder();
-            //showCardList(thibault.Deck);
-            //Console.WriteLine("Main de " + thibault.Nom + " : \n");
-            //Console.ReadKey();
-
-            handGenerator(thibault, 5);
-            handGenerator(jocelyn, 5);
-            //showCardList(thibault.Hand);
-            /*
-             * Console.WriteLine("Piocher une carte ? (y/n)");
-            Console.ReadKey();
-
-            showCard(cardPicker(thibault.Deck));
-            Console.ReadKey();
-            */
+            //handGenerator(thibault, 5);
+            //handGenerator(jocelyn, 5);
 
             bool finDuGame = false;
             bool vainqueurAuxPoints = false;
@@ -71,10 +56,20 @@ namespace tarot_du_faune
 
         static void TourDeJeu(Joueur player1, Joueur player2)
         {
+            bool carteOK = false;
+            //Calcul des cartes autorisées
+            Carte.setCartesAutorisees(dududududuel, player1, player2);
+
             Console.WriteLine("\n------------ Tour de " + player1.Nom + " ------------\n");
             showCardList(player1.Hand);
             Console.WriteLine("Quelle carte jouer ? (valeur de carte)");
             string cardPlayer1 = Console.ReadLine();
+            //Vérification de la validité de la carte du joueur 1
+            while(!carteOK)
+            {
+                Console.WriteLine("Quelle carte jouer ? (valeur de carte)");
+                carteOK = player1.CartesAutorisees.Contains(getCard(player1.Hand, int.Parse(cardPlayer1)));
+            }
 
             Console.WriteLine("\n------------ Tour de " + player2.Nom + " ------------\n");
             showCardList(player2.Hand);
@@ -88,6 +83,9 @@ namespace tarot_du_faune
             showCard(playedCardPlayer1);
             Console.WriteLine(player2.Nom + " a joué : \n");
             showCard(playedCardPlayer2);
+
+            Duel duel = new Duel(getCard(player1.Hand, int.Parse(cardPlayer1)), getCard(player2.Hand, int.Parse(cardPlayer2)));
+            dududududuel.ajouterDuel(dududududuel, duel);
 
             playCard(player1, int.Parse(cardPlayer1));
             playCard(player2, int.Parse(cardPlayer2));
@@ -109,60 +107,19 @@ namespace tarot_du_faune
                     Console.WriteLine("1 point pour Griffondor \n");
                 }
             }
-        }
-
-        static public List<Carte> deckBuilder()
-        {
-            List<Carte> myDeck = new List<Carte>();
-            //BOIS
-            Carte arthur = new Carte("BOIS", 2, "ARTHUR");
-            Carte a54 = new Carte("BOIS", 7, "A54");
-            Carte remi = new Carte("BOIS", 10, "REMI");
-            Carte marcheur = new Carte("BOIS", 15, "MARCHEUR");
-
-            //COEUR
-            Carte leila = new Carte("COEUR", 1, "LEILA");
-            Carte dafroza = new Carte("COEUR", 8, "DAFROZA");
-            Carte homme_affaire = new Carte("COEUR", 9, "L'HOMME D'AFFAIRES");
-            Carte viviane = new Carte("COEUR", 16, "VIVIANE");
-
-            //YEUX
-            Carte samuel = new Carte("YEUX", 3, "SAMUEL(1987)");
-            Carte maud = new Carte("YEUX", 6, "MAUD");
-            Carte eda = new Carte("YEUX", 11, "EDA");
-            Carte jeanAvon = new Carte("YEUX", 14, "JEAN AVON");
-
-            //FLAMME
-            Carte brutus = new Carte("FLAMME", 12, "BRUTUS");
-            Carte leMinot = new Carte("FLAMME", 5, "LE MINOT");
-            Carte horn = new Carte("FLAMME", 12, "HORN");
-            Carte lesJumeaux = new Carte("FLAMME", 13, "LES JUMEAUX");
-
-            myDeck.Add(leila);
-            myDeck.Add(arthur);
-            myDeck.Add(samuel);
-            myDeck.Add(brutus);
-            myDeck.Add(leMinot);
-            myDeck.Add(maud);
-            myDeck.Add(a54);
-            myDeck.Add(dafroza);
-            myDeck.Add(homme_affaire);
-            myDeck.Add(remi);
-            myDeck.Add(eda);
-            myDeck.Add(horn);
-            myDeck.Add(lesJumeaux);
-            myDeck.Add(jeanAvon);
-            myDeck.Add(marcheur);
-            myDeck.Add(viviane);
-
-            return myDeck;
+            Console.ReadKey();
         }
 
         static public void handGenerator(Joueur player, int nbCards)
         {
-            for(int i = 0; i < nbCards; i++)
+            List<int> listRandomCartes = new List<int>();
+            Random rnd = new Random();
+            for (int i = 0; i < nbCards; i++)
             {
-                cardPicker(player);
+                int rdm = rnd.Next(0, player.Deck.Count);
+                listRandomCartes.Add(rdm);
+                player.Hand.Add(player.Deck[i]);
+                player.Deck.RemoveAt(i);
             }
         }
 
@@ -172,8 +129,6 @@ namespace tarot_du_faune
             {
                 Random rnd = new Random();
                 int i = rnd.Next(0, player.Deck.Count);
-                player.Hand.Add(player.Deck[i]);
-                player.Deck.RemoveAt(i);
             }
             else
             {

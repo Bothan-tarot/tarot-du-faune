@@ -8,7 +8,7 @@ namespace tarot_du_faune
 {
     public class Hand
     {
-        private List<Carte> mainDuJoueur = new List<Carte>();
+        public List<Carte> mainDuJoueur = new List<Carte>();
 
         public Hand()
         {

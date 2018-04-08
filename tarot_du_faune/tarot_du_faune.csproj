@@ -45,9 +45,11 @@
   <ItemGroup>
     <Compile Include="Carte.cs" />
     <Compile Include="Deck.cs" />
+    <Compile Include="Duel.cs" />
     <Compile Include="Famille.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="Joueur.cs" />
+    <Compile Include="Partie.cs" />
     <Compile Include="Pouvoir.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
