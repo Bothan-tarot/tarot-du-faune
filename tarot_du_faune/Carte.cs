@@ -29,34 +29,37 @@ namespace tarot_du_faune
 
         static bool isFamilleOpposee(string familleCarteEnCours, string familleCartePrecedente)
         {
-            bool carteOK = true;
+            bool familleOpposee = false;
             if(familleCarteEnCours == "BOIS" && familleCarteEnCours == "YEUX")
             {
-                carteOK = false;
+                familleOpposee = true;
             }
             else if(familleCarteEnCours == "YEUX" && familleCartePrecedente == "BOIS")
             {
-                carteOK = false;
+                familleOpposee = true;
             }
             else if (familleCarteEnCours == "COEUR" && familleCartePrecedente == "FLAMME")
             {
-                carteOK = false;
+                familleOpposee = true;
             }
             else if (familleCarteEnCours == "FLAMME" && familleCartePrecedente == "COEUR")
             {
-                carteOK = false;
+                familleOpposee = true;
             }
-            return carteOK;
+            return familleOpposee;
         }
 
         static public void setCartesAutorisees(Partie partie, Joueur joueur1, Joueur joueur2)
         {
             string famillePrecedenteJoueur1 = string.Empty;
             string famillePrecedenteJoueur2 = string.Empty;
+            joueur1.CartesAutorisees = new List<Carte>();
+            joueur2.CartesAutorisees = new List<Carte>();
+
             Duel duelPrecedent = new Duel();
             if (partie.duelsJoues.Count > 0)
             {
-                duelPrecedent = partie.duelsJoues[partie.duelsJoues.Count];
+                duelPrecedent = partie.duelsJoues[partie.duelsJoues.Count-1];
                 famillePrecedenteJoueur1 = duelPrecedent.carteJoueur1.Famille;
                 famillePrecedenteJoueur2 = duelPrecedent.carteJoueur2.Famille;
             }

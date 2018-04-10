@@ -21,9 +21,6 @@ namespace tarot_du_faune
 
         static void initGame()
         {
-            //handGenerator(thibault, 5);
-            //handGenerator(jocelyn, 5);
-
             bool finDuGame = false;
             bool vainqueurAuxPoints = false;
             while(!finDuGame)
@@ -54,27 +51,46 @@ namespace tarot_du_faune
             Console.ReadKey();
         }
 
+        //TODO :
+        //Lors d'un tour de jeu :
+        //Chaque joueur pioche
+        //Les cartes autorisées sont mises à jours
+        //Chaque joueur joue une carte dont l'autorisation est vérifiée
+        //Résolution du duel
+        //Ajout du duel à la Partie
+        ///// Later : Gestion des pouvoirs
+        //Calcul du score de la Partie
+
+        //// Later : Faire des méthodes AfficherDuel() et AfficherPartie() pour faire joli ?
+
         static void TourDeJeu(Joueur player1, Joueur player2)
         {
             bool carteOK = false;
+            string cardPlayer1 = string.Empty;
+            string cardPlayer2 = string.Empty;
+
             //Calcul des cartes autorisées
             Carte.setCartesAutorisees(dududududuel, player1, player2);
 
             Console.WriteLine("\n------------ Tour de " + player1.Nom + " ------------\n");
             showCardList(player1.Hand);
-            Console.WriteLine("Quelle carte jouer ? (valeur de carte)");
-            string cardPlayer1 = Console.ReadLine();
             //Vérification de la validité de la carte du joueur 1
             while(!carteOK)
             {
                 Console.WriteLine("Quelle carte jouer ? (valeur de carte)");
+                cardPlayer1 = Console.ReadLine();
                 carteOK = player1.CartesAutorisees.Contains(getCard(player1.Hand, int.Parse(cardPlayer1)));
             }
 
             Console.WriteLine("\n------------ Tour de " + player2.Nom + " ------------\n");
             showCardList(player2.Hand);
-            Console.WriteLine("Quelle carte jouer ? (valeur de carte)");
-            string cardPlayer2 = Console.ReadLine();
+            //Vérification de la validité de la carte du joueur 2
+            while (!carteOK)
+            {
+                Console.WriteLine("Quelle carte jouer ? (valeur de carte)");
+                cardPlayer2 = Console.ReadLine();
+                carteOK = player2.CartesAutorisees.Contains(getCard(player2.Hand, int.Parse(cardPlayer2)));
+            }
 
             Console.WriteLine("\n------------ Résolution du duel ------------\n");
             Carte playedCardPlayer1 = getCard(player1.Hand, int.Parse(cardPlayer1));
