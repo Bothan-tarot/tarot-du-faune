@@ -8,9 +8,6 @@ namespace tarot_du_faune
 {
     public static class Program
     {
-        private static Joueur thibault = new Joueur("Thibault");
-        private static Joueur jocelyn = new Joueur("Jocelyn");
-        private static int nbPlis = 2;
         private static Partie dududududuel = new Partie();
 
         static void Main(string[] args)
@@ -21,43 +18,37 @@ namespace tarot_du_faune
 
         static void initGame()
         {
+            dududududuel.joueur1 = new Joueur("Thibault");
+            dududududuel.joueur2 = new Joueur("Jocelyn");
+
             bool finDuGame = false;
             bool vainqueurAuxPoints = false;
-            while(!finDuGame)
+            bool joueur1peutJouer = true;
+            bool joueur2peutJouer = true;
+            while (!finDuGame)
             {
-                TourDeJeu(thibault, jocelyn);
-                vainqueurAuxPoints = (thibault.Score >= nbPlis || jocelyn.Score >= nbPlis);
-                thibault.pioche = cardPicker(thibault);
-                jocelyn.pioche = cardPicker(jocelyn);
-                finDuGame = vainqueurAuxPoints || !thibault.pioche || !jocelyn.pioche;
+                //On lance le tour de jeu
+                TourDeJeu(dududududuel.joueur1, dududududuel.joueur2);
+                //A la fin du tour, on calcule s'il y a un vainqueur aux points
+                vainqueurAuxPoints = (dududududuel.joueur1.Score >= Partie.nbPlis || dududududuel.joueur2.Score >= Partie.nbPlis);
+                //Chaque joueur pioche
+                dududududuel.joueur1.pioche = cardPicker(dududududuel.joueur1);
+                dududududuel.joueur2.pioche = cardPicker(dududududuel.joueur2);
+                //Ensuite on calcule si un des deux joueurs
+                joueur1peutJouer = dududududuel.joueur1.pioche && dududududuel.joueur1.CartesAutorisees.Count > 0;
+                joueur2peutJouer = dududududuel.joueur2.pioche && dududududuel.joueur2.CartesAutorisees.Count > 0;
+                //On vérifie si l'une des deux fins possibles est atteinte
+                finDuGame = vainqueurAuxPoints || !joueur1peutJouer || !joueur2peutJouer;
             }
 
-            if(vainqueurAuxPoints)
-            {
-                if(thibault.Score >= nbPlis)
-                {
-                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                    Console.WriteLine("\tVictoire de " + thibault.Nom + " !!");
-                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                }
-                else
-                {
-                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                    Console.WriteLine("\tVictoire de " + jocelyn.Nom + " !!");
-                    Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-                }
-            }
+            Partie.showFinDePartie(vainqueurAuxPoints, Partie.nbPlis, dududududuel.joueur1, dududududuel.joueur2);
 
             Console.ReadKey();
         }
 
         //TODO :
-        //Lors d'un tour de jeu :
-        //Chaque joueur pioche
-        //Les cartes autorisées sont mises à jours
-        //Chaque joueur joue une carte dont l'autorisation est vérifiée
-        //Résolution du duel
         //Ajout du duel à la Partie
+        //Résolution du duel
         ///// Later : Gestion des pouvoirs
         //Calcul du score de la Partie
 
@@ -95,48 +86,40 @@ namespace tarot_du_faune
             Console.WriteLine("\n------------ Résolution du duel ------------\n");
             Carte playedCardPlayer1 = getCard(player1.Hand, int.Parse(cardPlayer1));
             Carte playedCardPlayer2 = getCard(player2.Hand, int.Parse(cardPlayer2));
+
             Console.WriteLine(player1.Nom + " a joué : \n");
             showCard(playedCardPlayer1);
             Console.WriteLine(player2.Nom + " a joué : \n");
             showCard(playedCardPlayer2);
 
             Duel duel = new Duel(getCard(player1.Hand, int.Parse(cardPlayer1)), getCard(player2.Hand, int.Parse(cardPlayer2)));
-            dududududuel.ajouterDuel(dududududuel, duel);
+            dududududuel = Partie.ajouterDuel(dududududuel, duel);
 
             playCard(player1, int.Parse(cardPlayer1));
             playCard(player2, int.Parse(cardPlayer2));
 
             if (playedCardPlayer1.Valeur > playedCardPlayer2.Valeur)
             {
-                player1.Score++;
-                Console.WriteLine(player1.Score.ToString() + " point pour " + player1.Nom + "\n");
+                Console.WriteLine(player1.Nom + " remporte ce duel\n");
+                Console.WriteLine(player2.Nom + " active le pouvoir suivant : " + playedCardPlayer2.Pouvoir);
             }
             else
             {
                 if(playedCardPlayer2.Valeur > playedCardPlayer1.Valeur)
                 {
-                    player2.Score++;
-                    Console.WriteLine(player2.Score.ToString() + " point pour " + player2.Nom + "\n");
+                    Console.WriteLine(player2.Nom + " remporte ce duel\n");
+                    Console.WriteLine(player1.Nom + " active le pouvoir suivant : " + playedCardPlayer1.Pouvoir);
                 }
                 else
                 {
                     Console.WriteLine("1 point pour Griffondor \n");
                 }
             }
-            Console.ReadKey();
-        }
 
-        static public void handGenerator(Joueur player, int nbCards)
-        {
-            List<int> listRandomCartes = new List<int>();
-            Random rnd = new Random();
-            for (int i = 0; i < nbCards; i++)
-            {
-                int rdm = rnd.Next(0, player.Deck.Count);
-                listRandomCartes.Add(rdm);
-                player.Hand.Add(player.Deck[i]);
-                player.Deck.RemoveAt(i);
-            }
+            //Mise à jour des scores
+            dududududuel = Partie.calculScorePartie(dududududuel);
+
+            Console.ReadKey();
         }
 
         static bool cardPicker(Joueur player)
