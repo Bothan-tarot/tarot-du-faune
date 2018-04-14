@@ -74,14 +74,13 @@ namespace tarot_du_faune
         static public List<Carte> getFuckingRandomHand(Joueur player, List<Carte> deck, int nbCartes)
         {
             List<Carte> handOfTheKing = new List<Carte>();
-            List<int> fuckingHellRandomNumbers = new List<int>();
 
-            Random rnd = new Random();
             for(int i = 0; i < nbCartes; i++)
             {
+                Random rnd = new Random();
                 int rdm = rnd.Next(deck.Count);
-                handOfTheKing.Add(player.Deck[i]);
-                player.Deck.RemoveAt(i);
+                handOfTheKing.Add(player.Deck[rdm]);
+                player.Deck.RemoveAt(rdm);
             }
             return handOfTheKing;
         }

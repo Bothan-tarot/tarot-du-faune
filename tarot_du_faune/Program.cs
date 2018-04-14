@@ -18,8 +18,12 @@ namespace tarot_du_faune
 
         static void initGame()
         {
-            dududududuel.joueur1 = new Joueur("Thibault");
-            dududududuel.joueur2 = new Joueur("Marion");
+            Console.WriteLine("Nom du premier joueur ?");
+            string str = Console.ReadLine();
+            dududududuel.joueur1 = new Joueur(str);
+            Console.WriteLine("Nom du deuxième joueur ?");
+            str = Console.ReadLine();
+            dududududuel.joueur2 = new Joueur(str);
 
             bool finDuGame = false;
             bool vainqueurAuxPoints = false;
@@ -31,12 +35,15 @@ namespace tarot_du_faune
                 TourDeJeu(dududududuel.joueur1, dududududuel.joueur2);
                 //A la fin du tour, on calcule s'il y a un vainqueur aux points
                 vainqueurAuxPoints = (dududududuel.joueur1.Score >= Partie.nbPlis || dududududuel.joueur2.Score >= Partie.nbPlis);
-                //Chaque joueur pioche
-                dududududuel.joueur1.pioche = cardPicker(dududududuel.joueur1);
-                dududududuel.joueur2.pioche = cardPicker(dududududuel.joueur2);
-                //Ensuite on calcule si un des deux joueurs
-                joueur1peutJouer = dududududuel.joueur1.pioche && dududududuel.joueur1.CartesAutorisees.Count > 0;
-                joueur2peutJouer = dududududuel.joueur2.pioche && dududududuel.joueur2.CartesAutorisees.Count > 0;
+                if(!vainqueurAuxPoints)
+                {
+                    //Chaque joueur pioche
+                    dududududuel.joueur1.pioche = cardPicker(dududududuel.joueur1);
+                    dududududuel.joueur2.pioche = cardPicker(dududududuel.joueur2);
+                    //Ensuite on calcule si un des deux joueurs
+                    joueur1peutJouer = dududududuel.joueur1.pioche && dududududuel.joueur1.CartesAutorisees.Count > 0;
+                    joueur2peutJouer = dududududuel.joueur2.pioche && dududududuel.joueur2.CartesAutorisees.Count > 0;
+                }
                 //On vérifie si l'une des deux fins possibles est atteinte
                 finDuGame = vainqueurAuxPoints || !joueur1peutJouer || !joueur2peutJouer;
             }
@@ -52,7 +59,7 @@ namespace tarot_du_faune
         ///// Later : Gestion des pouvoirs
         //Calcul du score de la Partie
 
-        //// Later : Faire des méthodes AfficherDuel() et AfficherPartie() pour faire joli ?
+        //// Later : Faire des méthodes AfficherDuel() et AfficherPartie() ?
 
         static void TourDeJeu(Joueur player1, Joueur player2)
         {
@@ -129,6 +136,9 @@ namespace tarot_du_faune
             {
                 Random rnd = new Random();
                 int i = rnd.Next(0, player.Deck.Count);
+                Carte c = getCard(player.Deck, i);
+                player.Hand.Add(c);
+                player.Deck.RemoveAt(i);
             }
             else
             {
