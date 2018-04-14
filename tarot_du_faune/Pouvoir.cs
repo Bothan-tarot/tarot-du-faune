@@ -6,10 +6,20 @@ using System.Threading.Tasks;
 
 namespace tarot_du_faune
 {
-    class Pouvoir
+    public class Pouvoir
     {
-        public string identifiant { get; set; }
+        public int Identifiant { get; set; }
+        public string Libelle { get; set; }
+        public string Type { get; set; }
 
-        public string Libellé { get; set; }
+        public Pouvoir()
+        { }
+
+        public Pouvoir(int id, string libelle, string type)
+        {
+            Identifiant = id;
+            Libelle = libelle;
+            Type = type;
+        }
     }
 }

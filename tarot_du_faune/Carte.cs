@@ -11,7 +11,7 @@ namespace tarot_du_faune
         public string Libelle { get; set; }
         public string Famille { get; set; }
         public int Valeur { get; set; }
-        public string Pouvoir { get; set; }
+        public Pouvoir Pouvoir { get; set; }
 
         public Carte(){ }
 
@@ -22,7 +22,7 @@ namespace tarot_du_faune
             Libelle = libelle;
         }
 
-        public Carte(string famille, int valeur, string libelle, string pouvoir)
+        public Carte(string famille, int valeur, string libelle, Pouvoir pouvoir)
         {
             Famille = famille;
             Valeur = valeur;

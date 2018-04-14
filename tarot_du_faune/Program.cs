@@ -19,7 +19,7 @@ namespace tarot_du_faune
         static void initGame()
         {
             dududududuel.joueur1 = new Joueur("Thibault");
-            dududududuel.joueur2 = new Joueur("Jocelyn");
+            dududududuel.joueur2 = new Joueur("Marion");
 
             bool finDuGame = false;
             bool vainqueurAuxPoints = false;
@@ -75,6 +75,7 @@ namespace tarot_du_faune
 
             Console.WriteLine("\n------------ Tour de " + player2.Nom + " ------------\n");
             showCardList(player2.Hand);
+            carteOK = false;
             //Vérification de la validité de la carte du joueur 2
             while (!carteOK)
             {
@@ -101,14 +102,14 @@ namespace tarot_du_faune
             if (playedCardPlayer1.Valeur > playedCardPlayer2.Valeur)
             {
                 Console.WriteLine(player1.Nom + " remporte ce duel\n");
-                Console.WriteLine(player2.Nom + " active le pouvoir suivant : " + playedCardPlayer2.Pouvoir);
+                Console.WriteLine(player2.Nom + " active le pouvoir suivant : " + playedCardPlayer2.Pouvoir.Libelle);
             }
             else
             {
                 if(playedCardPlayer2.Valeur > playedCardPlayer1.Valeur)
                 {
                     Console.WriteLine(player2.Nom + " remporte ce duel\n");
-                    Console.WriteLine(player1.Nom + " active le pouvoir suivant : " + playedCardPlayer1.Pouvoir);
+                    Console.WriteLine(player1.Nom + " active le pouvoir suivant : " + playedCardPlayer1.Pouvoir.Libelle);
                 }
                 else
                 {
