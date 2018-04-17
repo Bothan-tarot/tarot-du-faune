@@ -54,7 +54,7 @@ namespace tarot_du_faune
                 finDuGame = vainqueurAuxPoints || !joueur1peutJouer || !joueur2peutJouer;
             }
 
-            PartieHelper.showFinDePartie(vainqueurAuxPoints, Partie.NbPlis, dududududuel.Joueur1, dududududuel.Joueur2);
+            PartieHelper.ShowFinDePartie(vainqueurAuxPoints, Partie.NbPlis, dududududuel.Joueur1, dududududuel.Joueur2);
 
             Console.ReadKey();
         }
@@ -128,7 +128,7 @@ namespace tarot_du_faune
             }
 
             //Mise à jour des scores
-            dududududuel = PartieHelper.calculScorePartie(dududududuel);
+            dududududuel = PartieHelper.CalculScorePartie(dududududuel);
 
             Console.ReadKey();
         }
