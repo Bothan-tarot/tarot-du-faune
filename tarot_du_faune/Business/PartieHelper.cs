@@ -15,9 +15,47 @@ namespace tarot_du_faune.Business
             return partie;
         }
 
-        static public void JouerUneCarte()
+        static public Partie TourDeJeu(Partie partie)
         {
+            //Calcul des cartes autorisées
 
+            //Tour du premier joueur
+            ////Affichage de ses cartes en main
+
+            //Tour du deuxième joueur
+            ////Affichage de ses cartes en main
+
+            //Gestion du duel
+
+            return partie;
+        }
+
+        static public Carte TourJoueur(Joueur j)
+        {
+            Carte carteJouee = null;
+
+            while(carteJouee == null)
+            {
+                Console.WriteLine("Quelle carte jouer ? (valeur de carte)");
+                Carte c = CarteHelper.ObtenirCarte(j.Hand, int.Parse(Console.ReadLine()));
+                //Vérification de la validité de la carte du joueur
+                if (j.CartesAutorisees.Contains(c))
+                {
+                    carteJouee = c;
+                }
+            }
+            return carteJouee;
+        }
+
+        static public Partie ResolutionDuel(Partie p, Carte carteJoueur1, Carte carteJoueur2)
+        {
+            //Affichage du duel
+
+            //Vérification de la réelle valeur des cartes si des pouvoirs en-cours doivent être pris en compte
+
+            //Affichage du résultat du duel
+
+            return p;
         }
 
         static public void ImpactCartePrecedente()
@@ -42,10 +80,10 @@ namespace tarot_du_faune.Business
             int valeurCarteJoueur2 = 0;
             int scoreJoueur1 = 0;
             int scoreJoueur2 = 0;
-            for (int i = 0; i < partie.duelsJoues.Count; i++)
+            for (int i = 0; i < partie.DuelsJoues.Count; i++)
             {
-                valeurCarteJoueur1 = partie.duelsJoues[i].carteJoueur1.Valeur;
-                valeurCarteJoueur2 = partie.duelsJoues[i].carteJoueur2.Valeur;
+                valeurCarteJoueur1 = partie.DuelsJoues[i].carteJoueur1.Valeur;
+                valeurCarteJoueur2 = partie.DuelsJoues[i].carteJoueur2.Valeur;
 
                 if (valeurCarteJoueur1 > valeurCarteJoueur2)
                 {
@@ -56,8 +94,8 @@ namespace tarot_du_faune.Business
                     scoreJoueur2++;
                 }
             }
-            partieEnCours.joueur1.Score = scoreJoueur1;
-            partieEnCours.joueur2.Score = scoreJoueur2;
+            partieEnCours.Joueur1.Score = scoreJoueur1;
+            partieEnCours.Joueur2.Score = scoreJoueur2;
 
             return partieEnCours;
         }

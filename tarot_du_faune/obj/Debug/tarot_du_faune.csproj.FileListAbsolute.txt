@@ -16,3 +16,9 @@ D:\Perso\Tarot du faune\tarot-du-faune\tarot_du_faune\obj\Debug\tarot_du_faune.p
 D:\Perso\Tarot du faune\tarot-du-faune\tarot_du_faune\bin\Debug\tarot_du_faune.exe
 D:\Perso\Tarot du faune\tarot-du-faune\tarot_du_faune\bin\Debug\tarot_du_faune.pdb
 D:\Perso\Tarot du faune\tarot-du-faune\tarot_du_faune\obj\Debug\tarot_du_faune.csprojResolveAssemblyReference.cache
+E:\Programmation\TarotDuFaune\tarot-du-faune\tarot_du_faune\bin\Debug\tarot_du_faune.exe.config
+E:\Programmation\TarotDuFaune\tarot-du-faune\tarot_du_faune\obj\Debug\tarot_du_faune.exe
+E:\Programmation\TarotDuFaune\tarot-du-faune\tarot_du_faune\obj\Debug\tarot_du_faune.pdb
+E:\Programmation\TarotDuFaune\tarot-du-faune\tarot_du_faune\obj\Debug\tarot_du_faune.csprojResolveAssemblyReference.cache
+E:\Programmation\TarotDuFaune\tarot-du-faune\tarot_du_faune\bin\Debug\tarot_du_faune.exe
+E:\Programmation\TarotDuFaune\tarot-du-faune\tarot_du_faune\bin\Debug\tarot_du_faune.pdb
