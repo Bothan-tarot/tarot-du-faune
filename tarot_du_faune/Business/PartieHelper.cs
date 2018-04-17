@@ -3,45 +3,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tarot_du_faune.Transport;
 
-namespace tarot_du_faune
+namespace tarot_du_faune.Business
 {
-    public class Partie
+    public static class PartieHelper
     {
-        public List<Duel> duelsJoues { get; set; }
-        static public int nbPlis { get; set; }
-        public Joueur joueur1 { get; set; }
-        public Joueur joueur2 { get; set; }
-
-        public Partie()
-        {
-            duelsJoues = new List<Duel>();
-            nbPlis = 2;
-        }
-
         static public Partie ajouterDuel(Partie partie, Duel duel)
         {
-            partie.duelsJoues.Add(duel);
+            partie.DuelsJoues.Add(duel);
             return partie;
         }
 
-        static public Partie calculScorePartie(Partie partie)
+        static public void JouerUneCarte()
+        {
+
+        }
+
+        static public void ImpactCartePrecedente()
+        {
+
+        }
+
+        static public void ComparerValeur()
+        {
+
+        }
+
+        static public void ActiverPouvoir()
+        {
+
+        }
+
+        static public Partie CalculScorePartie(Partie partie)
         {
             Partie partieEnCours = partie;
             int valeurCarteJoueur1 = 0;
             int valeurCarteJoueur2 = 0;
             int scoreJoueur1 = 0;
             int scoreJoueur2 = 0;
-            for(int i = 0; i < partie.duelsJoues.Count; i++)
+            for (int i = 0; i < partie.duelsJoues.Count; i++)
             {
                 valeurCarteJoueur1 = partie.duelsJoues[i].carteJoueur1.Valeur;
                 valeurCarteJoueur2 = partie.duelsJoues[i].carteJoueur2.Valeur;
 
-                if(valeurCarteJoueur1 > valeurCarteJoueur2)
+                if (valeurCarteJoueur1 > valeurCarteJoueur2)
                 {
                     scoreJoueur1++;
                 }
-                else if(valeurCarteJoueur2 > valeurCarteJoueur1)
+                else if (valeurCarteJoueur2 > valeurCarteJoueur1)
                 {
                     scoreJoueur2++;
                 }
@@ -52,14 +62,14 @@ namespace tarot_du_faune
             return partieEnCours;
         }
 
-        static public void showFinDePartie(bool vainqueurAuxPoints, int nbPlis, Joueur joueur1, Joueur joueur2)
+        static public void ShowFinDePartie(bool vainqueurAuxPoints, int nbPlis, Joueur joueur1, Joueur joueur2)
         {
             if (vainqueurAuxPoints)
             {
                 Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 if (joueur1.Score >= nbPlis)
                 {
-                    Console.WriteLine("\tVictoire de " + joueur1.Nom + " !!");   
+                    Console.WriteLine("\tVictoire de " + joueur1.Nom + " !!");
                 }
                 else
                 {
@@ -77,7 +87,7 @@ namespace tarot_du_faune
                     Console.WriteLine("\tVictoire de " + joueur2.Nom + " !!");
                     Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                 }
-                else if(!joueur2peutJouer)
+                else if (!joueur2peutJouer)
                 {
                     Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
                     Console.WriteLine("\tVictoire de " + joueur1.Nom + " !!");

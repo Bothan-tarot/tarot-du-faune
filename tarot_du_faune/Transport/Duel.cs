@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace tarot_du_faune
+namespace tarot_du_faune.Transport
 {
     public class Duel
     {

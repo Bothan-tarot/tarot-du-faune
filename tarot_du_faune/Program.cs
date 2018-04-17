@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using tarot_du_faune.Transport;
+using tarot_du_faune.Business;
 
 namespace tarot_du_faune
 {
@@ -12,6 +14,7 @@ namespace tarot_du_faune
 
         static void Main(string[] args)
         {
+            Console.SetWindowSize(90, 60);
             Console.WriteLine("Tarot du faune");
             initGame();
         }
@@ -20,10 +23,10 @@ namespace tarot_du_faune
         {
             Console.WriteLine("Nom du premier joueur ?");
             string str = Console.ReadLine();
-            dududududuel.joueur1 = new Joueur(str);
+            dududududuel.Joueur1 = new Joueur(str);
             Console.WriteLine("Nom du deuxième joueur ?");
             str = Console.ReadLine();
-            dududududuel.joueur2 = new Joueur(str);
+            dududududuel.Joueur2 = new Joueur(str);
 
             bool finDuGame = false;
             bool vainqueurAuxPoints = false;
@@ -31,24 +34,27 @@ namespace tarot_du_faune
             bool joueur2peutJouer = true;
             while (!finDuGame)
             {
+                //Calcul des cartes autorisées
+                CarteHelper.setCartesAutorisees(dududududuel, dududududuel.Joueur1, dududududuel.Joueur2);
                 //On lance le tour de jeu
-                TourDeJeu(dududududuel.joueur1, dududududuel.joueur2);
+                TourDeJeu(dududududuel.Joueur1, dududududuel.Joueur2);
                 //A la fin du tour, on calcule s'il y a un vainqueur aux points
-                vainqueurAuxPoints = (dududududuel.joueur1.Score >= Partie.nbPlis || dududududuel.joueur2.Score >= Partie.nbPlis);
+                vainqueurAuxPoints = (dududududuel.Joueur1.Score >= Partie.NbPlis || dududududuel.Joueur2.Score >= Partie.NbPlis);
                 if(!vainqueurAuxPoints)
                 {
                     //Chaque joueur pioche
-                    dududududuel.joueur1.pioche = cardPicker(dududududuel.joueur1);
-                    dududududuel.joueur2.pioche = cardPicker(dududududuel.joueur2);
+                    dududududuel.Joueur1.pioche = cardPicker(dududududuel.Joueur1);
+                    dududududuel.Joueur2.pioche = cardPicker(dududududuel.Joueur2);
+
                     //Ensuite on calcule si un des deux joueurs
-                    joueur1peutJouer = dududududuel.joueur1.pioche && dududududuel.joueur1.CartesAutorisees.Count > 0;
-                    joueur2peutJouer = dududududuel.joueur2.pioche && dududududuel.joueur2.CartesAutorisees.Count > 0;
+                    joueur1peutJouer = dududududuel.Joueur1.pioche && dududududuel.Joueur1.CartesAutorisees.Count > 0;
+                    joueur2peutJouer = dududududuel.Joueur2.pioche && dududududuel.Joueur2.CartesAutorisees.Count > 0;
                 }
                 //On vérifie si l'une des deux fins possibles est atteinte
                 finDuGame = vainqueurAuxPoints || !joueur1peutJouer || !joueur2peutJouer;
             }
 
-            Partie.showFinDePartie(vainqueurAuxPoints, Partie.nbPlis, dududududuel.joueur1, dududududuel.joueur2);
+            PartieHelper.showFinDePartie(vainqueurAuxPoints, Partie.NbPlis, dududududuel.Joueur1, dududududuel.Joueur2);
 
             Console.ReadKey();
         }
@@ -66,9 +72,6 @@ namespace tarot_du_faune
             bool carteOK = false;
             string cardPlayer1 = string.Empty;
             string cardPlayer2 = string.Empty;
-
-            //Calcul des cartes autorisées
-            Carte.setCartesAutorisees(dududududuel, player1, player2);
 
             Console.WriteLine("\n------------ Tour de " + player1.Nom + " ------------\n");
             showCardList(player1.Hand);
@@ -101,7 +104,7 @@ namespace tarot_du_faune
             showCard(playedCardPlayer2);
 
             Duel duel = new Duel(getCard(player1.Hand, int.Parse(cardPlayer1)), getCard(player2.Hand, int.Parse(cardPlayer2)));
-            dududududuel = Partie.ajouterDuel(dududududuel, duel);
+            dududududuel = PartieHelper.ajouterDuel(dududududuel, duel);
 
             playCard(player1, int.Parse(cardPlayer1));
             playCard(player2, int.Parse(cardPlayer2));
@@ -125,7 +128,7 @@ namespace tarot_du_faune
             }
 
             //Mise à jour des scores
-            dududududuel = Partie.calculScorePartie(dududududuel);
+            dududududuel = PartieHelper.calculScorePartie(dududududuel);
 
             Console.ReadKey();
         }
