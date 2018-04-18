@@ -16,25 +16,7 @@ namespace tarot_du_faune
         {
             Console.SetWindowSize(90, 60);
             Console.WriteLine("Tarot du faune");
-
-            int tmp = 7;
-            //string s = tmp.ToString("00");
-            String s = String.Format("{0:00}", tmp);
-
-            Console.WriteLine("-----");
-            Console.WriteLine("|    |");
-            Console.WriteLine("| " + tmp + " |");
-            Console.WriteLine("|    |");
-            Console.WriteLine("-----");
-
-            Console.WriteLine("\n");
-
-            Console.WriteLine("-----");
-            Console.WriteLine("|    |");
-            Console.WriteLine("| 11 |");
-            Console.WriteLine("|    |");
-            Console.WriteLine("-----");
-
+            
             Console.ReadKey();
 
             //initGame();

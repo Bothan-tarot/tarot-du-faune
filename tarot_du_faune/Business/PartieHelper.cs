@@ -18,13 +18,11 @@ namespace tarot_du_faune.Business
         static public Partie TourDeJeu(Partie partie)
         {
             //Calcul des cartes autorisées
-
+            CarteHelper.MajCartesAutorisees(partie);
             //Tour du premier joueur
-            ////Affichage de ses cartes en main
-
+            TourJoueur(partie.Joueur1);
             //Tour du deuxième joueur
-            ////Affichage de ses cartes en main
-
+            TourJoueur(partie.Joueur2);
             //Gestion du duel
 
             return partie;
@@ -33,6 +31,7 @@ namespace tarot_du_faune.Business
         static public Carte TourJoueur(Joueur j)
         {
             Carte carteJouee = null;
+            AffichageHelper.AfficherListeCartes(j.Hand);
 
             while(carteJouee == null)
             {
@@ -43,6 +42,10 @@ namespace tarot_du_faune.Business
                 {
                     carteJouee = c;
                 }
+                else
+                {
+                    Console.WriteLine("Vous n'avez pas le droit de jouer cette carte.\n");
+                }
             }
             return carteJouee;
         }
@@ -50,8 +53,13 @@ namespace tarot_du_faune.Business
         static public Partie ResolutionDuel(Partie p, Carte carteJoueur1, Carte carteJoueur2)
         {
             //Affichage du duel
+            AffichageHelper.AfficherDuel(p, carteJoueur1, carteJoueur2);
+            //TODO : Vérification de la réelle valeur des cartes si des pouvoirs en-cours doivent être pris en compte
 
-            //Vérification de la réelle valeur des cartes si des pouvoirs en-cours doivent être pris en compte
+            //Comparaison des deux cartes
+            int carteGagnante = ComparerCartes(carteJoueur1, carteJoueur2);
+            
+            //TODO : Activation du pouvoir
 
             //Affichage du résultat du duel
 
@@ -63,9 +71,20 @@ namespace tarot_du_faune.Business
 
         }
 
-        static public void ComparerValeur()
+        static public int ComparerCartes(Carte carteJoueur1, Carte carteJoueur2)
         {
-
+            if(carteJoueur1.Valeur > carteJoueur2.Valeur)
+            {
+                return 1;
+            }
+            else if(carteJoueur2.Valeur > carteJoueur1.Valeur)
+            {
+                return 2;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         static public void ActiverPouvoir()
