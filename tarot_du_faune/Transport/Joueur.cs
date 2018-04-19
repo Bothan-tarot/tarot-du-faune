@@ -15,6 +15,10 @@ namespace tarot_du_faune.Transport
         public List<Carte> Hand { get; set; }
         public List<Carte> CartesAutorisees { get; set; }
         public bool pioche { get; set; }
+        public bool GagneLesEgalites { get; set; }
+        public bool MarcheurActif { get; set; }
+        public string CouleurInterdite { get; set; }
+        public bool Victoire { get; set; }
         public Joueur(string nom)
         {
             Nom = nom;

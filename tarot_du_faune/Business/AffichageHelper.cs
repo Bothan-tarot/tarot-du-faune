@@ -43,18 +43,18 @@ namespace tarot_du_faune.Business
 
         public static void AfficherPlateau(Partie p)
         {
-            string ligneCartes = string.Empty;
-            string cotesCartes = string.Empty;
-            string valeursCartesJ1 = string.Empty;
-            string valeursCartesJ2 = string.Empty;
+            StringBuilder ligneCartes = new StringBuilder();
+            StringBuilder cotesCartes = new StringBuilder();
+            StringBuilder valeursCartesJ1 = new StringBuilder();
+            StringBuilder valeursCartesJ2 = new StringBuilder();
             for (int i = 0; i < p.DuelsJoues.Count; i ++)
             {
-                ligneCartes += "------ ";
-                cotesCartes += "|    | ";
+                ligneCartes.Append("------ ");
+                cotesCartes.Append("|    | ");
                 string valJ1 = string.Format("{0:00}", p.DuelsJoues[i].carteJoueur1.Valeur);
                 string valJ2 = string.Format("{0:00}", p.DuelsJoues[i].carteJoueur2.Valeur);
-                valeursCartesJ1 += "| " + valJ1 + " | ";
-                valeursCartesJ2 += "| " + valJ2 + " | ";
+                valeursCartesJ1.Append("| " + valJ1 + " | ");
+                valeursCartesJ2.Append("| " + valJ2 + " | ");
             }
             Console.WriteLine(ligneCartes);
             Console.WriteLine(cotesCartes);

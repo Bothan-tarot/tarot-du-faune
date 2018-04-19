@@ -71,6 +71,51 @@ namespace tarot_du_faune.Business
 
         }
 
+        static public Partie ComparerToutesCartes(Partie partie)
+        {
+            partie.Joueur1.Score = 0;
+            partie.Joueur2.Score = 0;
+            for(int i = 0; i < partie.DuelsJoues.Count; i++)
+            {
+                if(partie.DuelsJoues[i].carteJoueur1.Valeur > partie.DuelsJoues[i].carteJoueur2.Valeur)
+                {
+                    partie.Joueur1.Score++;
+                    if (string.Equals(partie.DuelsJoues[i].carteJoueur1.Libelle, "SAMUEL(1987)"))
+                    {
+                        partie.Joueur1.Victoire = true;
+                    }
+                    if (string.Equals(partie.DuelsJoues[i].carteJoueur2.Libelle, "VIVIANE"))
+                    {
+                        partie.Joueur2.Victoire = true;
+                    }
+                }
+                else if (partie.DuelsJoues[i].carteJoueur2.Valeur > partie.DuelsJoues[i].carteJoueur1.Valeur)
+                {
+                    partie.Joueur2.Score++;
+                    if (string.Equals(partie.DuelsJoues[i].carteJoueur2.Libelle, "SAMUEL(1987)"))
+                    {
+                        partie.Joueur2.Victoire = true;
+                    }
+                    if (string.Equals(partie.DuelsJoues[i].carteJoueur1.Libelle, "VIVIANE"))
+                    {
+                        partie.Joueur1.Victoire = true;
+                    }
+                }
+                else
+                {
+                    if(partie.Joueur1.GagneLesEgalites)
+                    {
+                        partie.Joueur1.Score++;
+                    }
+                    else if(partie.Joueur2.GagneLesEgalites)
+                    {
+                        partie.Joueur2.Score++;
+                    }
+                }
+            }
+            return partie;
+        }
+
         static public int ComparerCartes(Carte carteJoueur1, Carte carteJoueur2)
         {
             if(carteJoueur1.Valeur > carteJoueur2.Valeur)

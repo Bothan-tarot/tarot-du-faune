@@ -52,7 +52,10 @@ namespace tarot_du_faune.Business
                 //Si la famille d'une carte de la main n'est pas opposée à celle de la carte jouée au dernier tour, alors on l'ajoute à la liste
                 if (string.IsNullOrEmpty(famillePrecedenteJoueur1) || !isFamilleOpposee(c.Famille, famillePrecedenteJoueur1))
                 {
-                    partie.Joueur1.CartesAutorisees.Add(c);
+                    if(!string.Equals(partie.Joueur1.CouleurInterdite, c.Famille))
+                    {
+                        partie.Joueur1.CartesAutorisees.Add(c);
+                    }
                 }
             }
 
@@ -62,7 +65,10 @@ namespace tarot_du_faune.Business
                 //Si la famille d'une carte de la main n'est pas opposée à celle de la carte jouée au dernier tour, alors on l'ajoute à la liste
                 if (!isFamilleOpposee(c.Famille, famillePrecedenteJoueur2))
                 {
-                    partie.Joueur2.CartesAutorisees.Add(c);
+                    if (!string.Equals(partie.Joueur2.CouleurInterdite, c.Famille))
+                    {
+                        partie.Joueur2.CartesAutorisees.Add(c);
+                    }
                 }
             }
 
@@ -116,6 +122,12 @@ namespace tarot_du_faune.Business
             List<Carte> liste = l;
             l.RemoveAt(ObtenirPositionCarte(l, valeurCarte));
             return liste;
+        }
+
+        public static List<Carte> DefausserCartes(List<Carte> l, int nbCartes)
+        {
+            l.RemoveRange(0, nbCartes-1);
+            return l;
         }
 
         public static List<Carte> AjouterCarteListe(List<Carte> l, Carte c)
